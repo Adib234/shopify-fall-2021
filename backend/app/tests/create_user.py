@@ -12,7 +12,6 @@ async def test_empty_password():
     Unit test for making sure one of the required fields isn't empty
     """
     empty_password = User(username="hello", password="")
-    # await database.connect()
     async with AsyncClient(app=app, base_url="http://127.0.0.1:8000") as ac:
         response = await ac.post("/create_user/", json={"username": empty_password.username, "password": empty_password.password})
     assert response.status_code == 404
@@ -40,7 +39,8 @@ async def test_insert():
         response = await ac.post("/create_user/", json={"username": valid.username, "password": valid.password})
 
     assert response.status_code == 200
-
+    assert response.json() == {
+        "username": valid.username, "password": valid.password}
     # deleting the row we just put in so that we can reuse this test
     query_all = "select * from users"
     insert_rows = await database.fetch_all(query_all)
@@ -67,5 +67,5 @@ async def test_duplicate():
     async with AsyncClient(app=app, base_url="http://127.0.0.1:8000") as ac:
         response = await ac.post("/create_user/", json={"username": existing_user.username, "password": existing_user.password})
 
-    assert response.status_code == 405
+    assert response.status_code == 406
     await database.disconnect()

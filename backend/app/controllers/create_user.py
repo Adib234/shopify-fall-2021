@@ -27,7 +27,7 @@ async def create_user(user: User):
     for row in rows:
         if row['username'] == user.username or row['password'] == user.password:
             raise HTTPException(
-                status_code=405, detail="This username or password exists, please choose a different one")
+                status_code=406, detail="This username or password exists, please choose a different one")
 
     query = users.insert().values(username=user.username, password=user.password,
                                   private_images=0, public_images=0)
