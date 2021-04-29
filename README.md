@@ -14,6 +14,7 @@ Now if you go to `http://127.0.0.1:8080`, you should see `{"Hello":"World"}`, (b
 - Encrypt passwords and don't store them in plaintexts
 - Test
 - Document properly
+- How to test everything in a tests folder
 
 # Things I learned
 

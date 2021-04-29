@@ -1,4 +1,4 @@
-from ..schemas import user
+from ..schemas.user import User
 from ..db import database
 from ..models.users import users
 from fastapi import HTTPException, APIRouter
@@ -6,8 +6,8 @@ from fastapi import HTTPException, APIRouter
 router = APIRouter()
 
 
-@router.post("/create_user/", response_model=user.User)
-async def create_user(user: user.User):
+@router.post("/create_user/", response_model=User)
+async def create_user(user: User):
     """
     Create a user with all the information:
     :param user: User input.
@@ -16,16 +16,18 @@ async def create_user(user: user.User):
     Returns the values that they entered (username, password)
     """
     duplicate = False
+
+    if user.username == '' or user.password == '':
+        raise HTTPException(
+            status_code=404, detail="Please fill out a password or username")
+
     query = "select * from users"
     rows = await database.fetch_all(query=query)
-    for row in rows:
-        if row['username'] == user.username:
-            raise HTTPException(
-                status_code=404, detail="This username exists, please choose a different one")
 
-        elif row['password'] == user.password:
+    for row in rows:
+        if row['username'] == user.username or row['password'] == user.password:
             raise HTTPException(
-                status_code=404, detail="This password exists, please choose a different one")
+                status_code=405, detail="This username or password exists, please choose a different one")
 
     query = users.insert().values(username=user.username, password=user.password,
                                   private_images=0, public_images=0)

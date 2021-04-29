@@ -9,6 +9,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.sql import func
 from ..db import metadata
+from .users import users
 
 
 class PermissionsEnum(Enum):
