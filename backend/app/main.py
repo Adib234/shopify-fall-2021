@@ -1,9 +1,10 @@
 from fastapi import FastAPI
 
-from .controllers import root, create_user, my_info
-from .db import engine, database, metadata
+from .controllers import root, create_user, my_info, add
+from .db import engine, database
+from . import models
 
-metadata.create_all(engine)
+models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
@@ -20,3 +21,4 @@ async def shutdown():
 app.include_router(root.router)
 app.include_router(create_user.router)
 app.include_router(my_info.router)
+app.include_router(add.router)

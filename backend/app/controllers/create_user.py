@@ -1,13 +1,13 @@
-from ..schemas.user import User
+from ..schemas.user import Users
 from ..db import database
-from ..models.users import users
+from ..models import User
 from fastapi import HTTPException, APIRouter
 
 router = APIRouter()
 
 
-@router.post("/create_user/", response_model=User)
-async def create_user(user: User):
+@router.post("/create_user/")
+async def create_user(user: Users):
     """
     Create a user with all the information:
     :param user: User input.
@@ -29,7 +29,7 @@ async def create_user(user: User):
             raise HTTPException(
                 status_code=406, detail="This username or password exists, please choose a different one")
 
-    query = users.insert().values(username=user.username, password=user.password,
-                                  private_images=0, public_images=0)
+    query = "insert into users(username,password,private_images,public_images) values ('{username}','{password}',{private_images},{public_images})".format(username=user.username, password=user.password,
+                                                                                                                                                           private_images=0, public_images=0)
     last_record_id = await database.execute(query)
-    return {**user.dict(), "id": last_record_id}
+    return {**user.dict()}

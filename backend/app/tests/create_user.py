@@ -2,7 +2,8 @@ import pytest
 from httpx import AsyncClient
 from ..db import database
 from ..main import app
-from ..schemas.user import User
+from ..schemas.user import Users
+
 from sqlalchemy import delete
 
 
@@ -11,10 +12,12 @@ async def test_empty_password():
     """
     Unit test for making sure one of the required fields isn't empty
     """
-    empty_password = User(username="hello", password="")
+    await database.connect()
+    empty_password = Users(username="hello", password="")
     async with AsyncClient(app=app, base_url="http://127.0.0.1:8000") as ac:
         response = await ac.post("/create_user/", json={"username": empty_password.username, "password": empty_password.password})
     assert response.status_code == 404
+    await database.disconnect()
 
 
 @pytest.mark.asyncio
@@ -22,10 +25,12 @@ async def test_validate_schema():
     """
     What happens when we have an integer instead for one of the string fields?
     """
-    validate = User(username=1, password="")
+    await database.connect()
+    validate = Users(username=1, password="")
     async with AsyncClient(app=app, base_url="http://127.0.0.1:8000") as ac:
         response = await ac.post("/create_user/", json={"username": validate.username, "password": validate.password})
     assert response.status_code == 404
+    await database.disconnect()
 
 
 @pytest.mark.asyncio
@@ -34,7 +39,7 @@ async def test_insert():
     Testing to see if an insert works
     """
     await database.connect()
-    valid = User(username="testadib", password="shopify")
+    valid = Users(username="testadib", password="shopify")
     async with AsyncClient(app=app, base_url="http://127.0.0.1:8000") as ac:
         response = await ac.post("/create_user/", json={"username": valid.username, "password": valid.password})
 
@@ -63,7 +68,7 @@ async def test_duplicate():
     password: string
     """
     await database.connect()
-    existing_user = User(username="string", password="string")
+    existing_user = Users(username="string", password="string")
     async with AsyncClient(app=app, base_url="http://127.0.0.1:8000") as ac:
         response = await ac.post("/create_user/", json={"username": existing_user.username, "password": existing_user.password})
 

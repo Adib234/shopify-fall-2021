@@ -10,7 +10,7 @@ uvicorn app.main:app --reload
 
 Now if you go to `http://127.0.0.1:8000`, you should see `{"Hello":"Adib!"}`, (bonus : FastAPI has built-in documentation for this project so by going to `http://127.0.0.1:8000/docs` you will see all routes, descriptions of it and can even interact with it since you can specifiy any variables or parameters )
 
-Note your API key is simply your username plus password.
+Note your API key is simply your username plus password after you hit `\create_user\` endpoint.
 
 # To do
 
@@ -21,6 +21,8 @@ Note your API key is simply your username plus password.
 - Encrypt passwords and don't store them in plaintexts
 - Test
 - Document properly
+
+- Maybe later create models directory and put the two models in separate files
 
 # Questions
 
@@ -35,7 +37,8 @@ Note your API key is simply your username plus password.
 # Challenges
 
 - Figuring out a file structure for FastAPI was challenging, especially configuring the database since this was my first time doing this. However I came across this [link](!https://testdriven.io/blog/fastapi-crud/) which is what my file structure is modeled after.
-- Test coverage in asynchronous code (which is what most of my code is) doesn't get reported with the tool that I use called `coverage` and from my research this is what seems to be used. A solution to this is provided in this [gist](!https://gist.github.com/daviskirk/7e8495ca5b8150f9002c5bc80630fa5a#file-run-sh),
+- Test coverage in asynchronous code (which is what most of my code is) doesn't get reported with the tool that I use called `coverage` and from my research this is what seems to be used. A solution to this is provided in this [gist](!https://gist.github.com/daviskirk/7e8495ca5b8150f9002c5bc80630fa5a#file-run-sh) and I tried `coverage run --src=app --concurrency=gevent` but nothing happened. This is isn't urgent now I'll come back to it later.
+- So I tried to use a ORM but for some reason one table wouldn't have any of my columns which was not good, so after a few hours and countless Stack Overflow posts I still couldn't get it to work. Eventually what I decided to do was create one models file and have all my models there. Also I can't use any queries from the ORM because it can't find where my model is even though people have told me that I imported it correctly. Raw SQL queries it is then. (My only usage of the ORM is the initial setup of the databases)
 
 # Notes
 
