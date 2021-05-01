@@ -33,12 +33,14 @@ Note your API key is simply your username plus password after you hit `\create_u
 - FastAPI offers two ways of handling file uploads by clients: `File` and `UploadFile` function. For this project I chose to work with `UploadFile` because for this challenge there's no specifcation for image file sizes. Therefore it would be best to work with `UploadFile` since it uses a "spooled" file meaning that the file will be stored in memory, but if it exceeds the limit then additional memory is stored in disk. `File` only stores files in memory.
 - If your tests need to use the database, connect to it and then disconnect it so that you won't have any running processes which may interfere with other tests.
 - Finally understood relative imports and how to gain access to variables in a file in Python from a different file
+- I learned the value of having migrations. I changed the columns of my tables multiple times and it wouldn't update for some reason so I had to destroy the entire database and work from scratch again.
 
 # Challenges
 
 - Figuring out a file structure for FastAPI was challenging, especially configuring the database since this was my first time doing this. However I came across this [link](!https://testdriven.io/blog/fastapi-crud/) which is what my file structure is modeled after.
 - Test coverage in asynchronous code (which is what most of my code is) doesn't get reported with the tool that I use called `coverage` and from my research this is what seems to be used. A solution to this is provided in this [gist](!https://gist.github.com/daviskirk/7e8495ca5b8150f9002c5bc80630fa5a#file-run-sh) and I tried `coverage run --src=app --concurrency=gevent` but nothing happened. This is isn't urgent now I'll come back to it later.
 - So I tried to use a ORM but for some reason one table wouldn't have any of my columns which was not good, so after a few hours and countless Stack Overflow posts I still couldn't get it to work. Eventually what I decided to do was create one models file and have all my models there. Also I can't use any queries from the ORM because it can't find where my model is even though people have told me that I imported it correctly. Raw SQL queries it is then. (My only usage of the ORM is the initial setup of the databases)
+- Spent a lot of time figuring out a cryptic error message that said the data I was giving as an input was invalid. After posting a Github issue for help I found out that if I were to have form data, I can't have a request body since this is a limitation in the HTTP protocol. So this is why `add` route has a lot of parameters. Before I was passing down a schema, but a schema is considered a request body and therefore is not allowed.
 
 # Notes
 

@@ -1,7 +1,8 @@
-from ..schemas.user import Users
+from fastapi import APIRouter, HTTPException
+
 from ..db import database
 from ..models import User
-from fastapi import HTTPException, APIRouter
+from ..schemas.user import Users
 
 router = APIRouter()
 

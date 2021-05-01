@@ -1,20 +1,9 @@
-from sqlalchemy import (
-    Column,
-    DateTime,
-    Integer,
-    String,
-    Table,
-    ForeignKey
-)
-from .db import Base
-from sqlalchemy.sql import func
+from sqlalchemy import (Column, DateTime, ForeignKey, Integer, LargeBinary,
+                        String, Table)
 from sqlalchemy.orm import relationship
-import enum
+from sqlalchemy.sql import func
 
-
-class PermissionsEnum(enum.Enum):
-    private = 'private'
-    public = 'public'
+from .db import Base
 
 
 class User(Base):
@@ -37,6 +26,7 @@ class Image(Base):
     __tablename__ = "images"
 
     id = Column("id", Integer, primary_key=True, index=True)
+    image = Column("img", LargeBinary)
     permissions = Column("permissions", String)
     text = Column("text", String)
     characteristics = Column("characteristics", String)

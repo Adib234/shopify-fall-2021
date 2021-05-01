@@ -1,9 +1,11 @@
 import os
-from sqlalchemy import create_engine
-from sqlalchemy.sql import func
+
 from databases import Database
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.sql import func
+
 Base = declarative_base()
 DATABASE_URL = os.environ.get("DATABASE_URL")
 

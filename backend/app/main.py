@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 
-from .controllers import root, create_user, my_info, add
-from .db import engine, database
 from . import models
+from .controllers import add, create_user, my_info, root
+from .db import database, engine
 
 models.Base.metadata.create_all(bind=engine)
 

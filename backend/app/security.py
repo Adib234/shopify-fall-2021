@@ -1,5 +1,6 @@
-from .db import database
 from fastapi import HTTPException, status
+
+from .db import database
 
 
 async def authenticate(api_key):
