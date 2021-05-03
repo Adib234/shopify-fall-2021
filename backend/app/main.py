@@ -21,4 +21,4 @@ async def shutdown():
 app.include_router(root.router)
 app.include_router(create_user.router)
 app.include_router(my_info.router)
-app.include_router(add.router)
+app.include_router(add.router, prefix='/add')

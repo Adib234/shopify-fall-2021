@@ -14,11 +14,7 @@ Note your API key is simply your username plus password after you hit `\create_u
 
 # To do
 
-- Encryption
-
-- Add an image
-- Add an image privately
-- Add in bulk
+- Test privately and publicly
 
 - Encrypt passwords and don't store them in plaintexts
 - Test
@@ -43,7 +39,7 @@ Note your API key is simply your username plus password after you hit `\create_u
 - Test coverage in asynchronous code (which is what most of my code is) doesn't get reported with the tool that I use called `coverage` and from my research this is what seems to be used. A solution to this is provided in this [gist](!https://gist.github.com/daviskirk/7e8495ca5b8150f9002c5bc80630fa5a#file-run-sh) and I tried `coverage run --src=app --concurrency=gevent` but nothing happened. This is isn't urgent now I'll come back to it later.
 - So I tried to use a ORM but for some reason one table wouldn't have any of my columns which was not good, so after a few hours and countless Stack Overflow posts I still couldn't get it to work. Eventually what I decided to do was create one models file and have all my models there. Also I can't use any queries from the ORM because it can't find where my model is even though people have told me that I imported it correctly. Raw SQL queries it is then. (My only usage of the ORM is the initial setup of the databases)
 - Spent a lot of time figuring out a cryptic error message that said the data I was giving as an input was invalid. After posting a Github issue for help I found out that if I were to have form data, I can't have a request body since this is a limitation in the HTTP protocol. So this is why `add` route has a lot of parameters. Before I was passing down a schema, but a schema is considered a request body and therefore is not allowed.
-- Talk about storing images
+- I struggled with my attempt of storing images in PostgreSQL database, so after spending two days and posting a Github [issue](!https://github.com/tiangolo/fastapi/issues/3156) and a Stack Overflow [post](!https://stackoverflow.com/questions/67350508/how-to-convert-binary-in-python-into-bytea-data-type-in-postgresql?noredirect=1#comment119047593_67350508) with no answers I decided to just store and retrieve images on AWS S3 and to just keep the filename and it's access control in the database.
 
 # Notes
 
