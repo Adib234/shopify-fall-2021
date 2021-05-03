@@ -16,6 +16,8 @@ databases = "^0.4.3"
 psycopg2 = "^2.8.6"
 coverage = "^5.5"
 python-multipart = "^0.0.5"
+boto3 = "^1.17.62"
+aiofiles = "^0.6.0"
 
 [tool.poetry.dev-dependencies]
 

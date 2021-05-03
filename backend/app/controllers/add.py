@@ -1,5 +1,4 @@
-import _pickle as cPickle
-import binascii
+import uuid
 from enum import Enum
 from typing import List, Optional
 
@@ -7,14 +6,17 @@ from fastapi import (APIRouter, Depends, File, Form, HTTPException, Query,
                      UploadFile)
 from pydantic import BaseModel, Field
 
-import psycopg2
+import aiofiles
 from sqlalchemy.sql import func
 
+from ..aws import s3_resource
 from ..db import database
 from ..request import request_user
 from ..security import authenticate
 
 router = APIRouter()
+
+# Maybe have a public and private route
 
 
 @router.post("/add/")
@@ -24,6 +26,7 @@ async def add_images(api_key: str, t: List[str] = Query(..., alias="texts", titl
                      p: List[str] = Query(
                          'public', alias="permissions", title="Permissions of images"),
                      images_upload: List[UploadFile] = File(...)):
+    # Test that each file uploaded is an image
     # Test this
     if (len(t) != len(c) or len(c) != len(p) or len(p) != len(images_upload)):
         raise HTTPException(
@@ -33,21 +36,30 @@ async def add_images(api_key: str, t: List[str] = Query(..., alias="texts", titl
 
     await authenticate(api_key)
     result = await request_user("api_key, username, id", api_key)
-    image_array = []
+    images_name = []
     for image in images_upload:
-        contents = await image.read()
-        image_array.append(contents)
-    # add image validation
+        # if image.content_type == 'image/png' or image.content_type == "image/jpg"
+        print(image.content_type)
+        #file_location = f"files/{image.filename}"
+        # image.filename = str(uuid.uuid4())
+        async with aiofiles.open(image.filename, 'wb') as out_file:
+            content = await image.read()
+            await out_file.write(content)
 
-    for (permission, text, characteristics, image) in zip(p, c, t, image_array):
+        destination = f"{result[0]['username']}/{image.filename}"
+        s3_resource.Object('shopify-fall', destination).upload_file(
+            Filename=image.filename)
+        images_name.append(image.filename)
+        await aiofiles.os.remove(image.filename)
 
-        query = ("insert into images(permissions,text,characteristics,date_created,user_id,img)"
+    for (permission, text, characteristics, image) in zip(p, c, t, images_name):
+
+        query = ("insert into images(permissions,text,characteristics,date_created,user_id,img_name)"
                  f"values('{permission}','{text}',"
                  f"'{characteristics}'"
                  f",{func.now()},{result[0]['id']}"
-                 f",'{psycopg2.Binary(image)}')")
-        print(query[0:200])
+                 f",'{image}')")
         await database.execute(query=query)
 
     # Next update the current user
-    return
+    return [x.filename for x in images_upload]
