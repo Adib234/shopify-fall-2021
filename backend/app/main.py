@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
 from . import models
-from .controllers import add, create_user, my_info, root
+from .controllers import add, create_user, delete, my_info, root
 from .db import database, engine
 
 models.Base.metadata.create_all(bind=engine)
@@ -22,3 +22,4 @@ app.include_router(root.router)
 app.include_router(create_user.router)
 app.include_router(my_info.router)
 app.include_router(add.router, prefix='/add')
+app.include_router(delete.router, prefix='/delete')

@@ -14,7 +14,7 @@ Note your API key is simply your username plus password after you hit `\create_u
 
 # To do
 
-Delete
+test delete
 
 - Encrypt passwords and don't store them in plaintexts
 - Test

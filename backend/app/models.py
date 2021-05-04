@@ -26,7 +26,8 @@ class Image(Base):
     __tablename__ = "images"
 
     id = Column("id", Integer, primary_key=True, index=True)
-    image_name = Column("img_name", String)
+    s3_name = Column("s3_name", String)
+    original_name = Column("org_name", String)
     permissions = Column("permissions", String)
     text = Column("text", String)
     characteristics = Column("characteristics", String)
