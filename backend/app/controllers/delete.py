@@ -12,8 +12,8 @@ router = APIRouter()
 
 @router.post("/")
 async def delete_images(api_key: str,
-                        d: List[str] = Query(..., alias="images_delete", description="A list of the filenames based"
-                                             "on how they were stored in S3 which can be collected in my images endpoint")):
+                        images_delete: List[str] = Query(..., alias="d", description="A list of the filenames based "
+                                                         "on how they were stored in S3 which can be collected in my images endpoint")):
     """
     s3_name are preferred over org_name since they are unique identifiers and eliminate the possibility 
     of duplicate results found when we search for an image. The user may end up deleting an image based
@@ -24,7 +24,7 @@ async def delete_images(api_key: str,
     init_result = await request_user("api_key, username, id", api_key)
     deleted = 0
 
-    for image in d:
+    for image in images_delete:
 
         query_find = (f"select * from images where s3_name='{image}' ")
         result = await database.fetch_all(query=query_find)
@@ -47,4 +47,4 @@ async def delete_images(api_key: str,
                 query_update = f"update users set public_images = public_images - 1 where id = {init_result[0]['id']}"
                 await database.execute(query=query_update)
 
-    return {"number of deletes requested": len(d), "number of deletes successful": deleted}
+    return {"number of deletes requested": len(images_delete), "number of deletes successful": deleted}

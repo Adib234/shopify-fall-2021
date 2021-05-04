@@ -14,12 +14,15 @@ Note your API key is simply your username plus password after you hit `\create_u
 
 # To do
 
-test delete
+- test delete
+- getting and showing images
+- sell
+- search
 
 - Encrypt passwords and don't store them in plaintexts
-- Test
-- Document properly
 
+- Section for explaining file structure
+- Table of contents
 - Maybe later create models directory and put the two models in separate files
 
 # Questions

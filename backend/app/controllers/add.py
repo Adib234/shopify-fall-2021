@@ -79,20 +79,20 @@ async def add_images(permission: str, api_key: str, t: List[str], c: List[str], 
 
 
 @router.post("/private/")
-async def add_images_private(api_key: str, t: List[str] = Query(..., alias="texts", title="Description for images"),
-                             c: List[str] = Query(..., alias="characteristics",
-                                                  title="Tags for images"),
+async def add_images_private(api_key: str, texts: List[str] = Query(..., alias="t", description="Description for images"),
+                             characteristics: List[str] = Query(..., alias="c",
+                                                                description="Tags for images"),
                              images_upload: List[UploadFile] = File(...)):
 
-    result = await add_images('private', api_key, t, c, images_upload)
+    result = await add_images('private', api_key, texts, characteristics, images_upload)
     return result
 
 
 @router.post("/public/")
-async def add_images_public(api_key: str, t: List[str] = Query(..., alias="texts", title="Description for images"),
-                            c: List[str] = Query(..., alias="characteristics",
-                                                 title="Tags for images"),
+async def add_images_public(api_key: str, texts: List[str] = Query(..., alias="t", description="Description for images"),
+                            characteristics: List[str] = Query(..., alias="c",
+                                                               description="Tags for images"),
                             images_upload: List[UploadFile] = File(...)):
 
-    result = await add_images('public', api_key, t, c, images_upload)
+    result = await add_images('public', api_key, texts, characteristics, images_upload)
     return result
