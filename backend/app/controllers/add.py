@@ -1,6 +1,6 @@
 import uuid
 from enum import Enum
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from fastapi import (APIRouter, Depends, File, Form, HTTPException, Query,
                      UploadFile)
@@ -35,9 +35,9 @@ async def add_images(permission: str, api_key: str, t: List[str], c: List[str], 
 
     # For each image, upload it to S3
     for image in images_upload:
+        print(image.content_type)
         if image.content_type == 'image/png' or image.content_type == "image/jpg" or image.content_type == "image/jpeg":
 
-            print(image.content_type)
             image.filename = f"{str(uuid.uuid4())}.{image.content_type.split('/')[1]}"
             async with aiofiles.open(image.filename, 'wb') as out_file:
                 content = await image.read()
