@@ -4,7 +4,7 @@ To get started from the root directory run
 
 ```bash
 cd backend && poetry shell && poetry install # activate virutal environment and install dependencies
-export DATBASE_URL=... # exporting environment variables to establish the connection to our database on the startup of our backend
+export DATBASE_URL=... AWS_SERVER_PUBLIC_KEY=... AWS_SERVER_SECRET_KEY=... REGION_NAME=... # exporting environment variables to establish the connection to our database on the startup of our backend
 uvicorn app.main:app --reload
 ```
 
@@ -14,7 +14,6 @@ Note your API key is simply your username plus password after you hit `\create_u
 
 # To do
 
-- test delete
 - getting and showing images
 - sell
 - search
@@ -23,12 +22,12 @@ Note your API key is simply your username plus password after you hit `\create_u
 
 - Section for explaining file structure
 - Table of contents
-- Maybe later create models directory and put the two models in separate files
 
 # Questions
 
 - How to run all tests in `pytest` instead of specifying the file. Also, why does `pytest *` run twice?
 - How to test upload of multiple files with FastAPI?
+- How to inject my `authenticate` function in all my routes?
 
 # Things I learned
 

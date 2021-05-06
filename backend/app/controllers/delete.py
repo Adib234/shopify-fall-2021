@@ -13,7 +13,7 @@ router = APIRouter()
 @router.post("/")
 async def delete_images(api_key: str,
                         images_delete: List[str] = Query(..., alias="d", description="A list of the filenames based "
-                                                         "on how they were stored in S3 which can be collected in my images endpoint")):
+                                                         "on how they were stored in S3 which can be collected in my_images endpoint")):
     """
     s3_name are preferred over org_name since they are unique identifiers and eliminate the possibility 
     of duplicate results found when we search for an image. The user may end up deleting an image based
