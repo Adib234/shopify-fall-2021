@@ -1,4 +1,23 @@
-# Usage
+# Shopify Fall 2021 Backend Challenge
+
+<details open="open">
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#getting-started">Getting started</a>
+    </li>
+    <li>
+      <a href="#questions">Questions</a>
+    </li>
+    <li><a href="#things-i-learned">Things I learned</a></li>
+    <li><a href="#challenges">Challenges</a></li>
+    <li><a href="#notes">Notes</a></li>
+    <li><a href="#what-i-used">What I used</a></li>
+
+  </ol>
+</details>
+
+## Getting started
 
 To get started from the root directory run
 
@@ -12,31 +31,34 @@ Now if you go to `http://127.0.0.1:8000`, you should see `{"Hello":"Adib!"}`, (b
 
 Note your API key is simply your username plus password after you hit `\create_user\` endpoint.
 
-# To do
+## To do
 
-- getting and showing images
+- alembic
+- github actions to run test and test coverage
+
 - sell
+- sell test
 - search
+- search test
 
 - Encrypt passwords and don't store them in plaintexts
+- Explain file structure in readme
+- mock some data for my_images?
 
-- Section for explaining file structure
-- Table of contents
-
-# Questions
+## Questions
 
 - How to run all tests in `pytest` instead of specifying the file. Also, why does `pytest *` run twice?
 - How to test upload of multiple files with FastAPI?
 - How to inject my `authenticate` function in all my routes?
 
-# Things I learned
+## Things I learned
 
 - FastAPI offers two ways of handling file uploads by clients: `File` and `UploadFile` function. For this project I chose to work with `UploadFile` because for this challenge there's no specifcation for image file sizes. Therefore it would be best to work with `UploadFile` since it uses a "spooled" file meaning that the file will be stored in memory, but if it exceeds the limit then additional memory is stored in disk. `File` only stores files in memory.
 - If your tests need to use the database, connect to it and then disconnect it so that you won't have any running processes which may interfere with other tests.
 - Finally understood relative imports and how to gain access to variables in a file in Python from a different file
 - I learned the value of having migrations. I changed the columns of my tables multiple times and it wouldn't update for some reason so I had to destroy the entire database and work from scratch again.
 
-# Challenges
+## Challenges
 
 - Figuring out a file structure for FastAPI was challenging, especially configuring the database since this was my first time doing this. However I came across this [link](!https://testdriven.io/blog/fastapi-crud/) which is what my file structure is modeled after.
 - Test coverage in asynchronous code (which is what most of my code is) doesn't get reported with the tool that I use called `coverage` and from my research this is what seems to be used. A solution to this is provided in this [gist](!https://gist.github.com/daviskirk/7e8495ca5b8150f9002c5bc80630fa5a#file-run-sh) and I tried `coverage run --src=app --concurrency=gevent` but nothing happened. This is isn't urgent now I'll come back to it later.
@@ -45,7 +67,7 @@ Note your API key is simply your username plus password after you hit `\create_u
 - I struggled with my attempt of storing images in PostgreSQL database, so after spending two days and posting a Github [issue](!https://github.com/tiangolo/fastapi/issues/3156) and a Stack Overflow [post](!https://stackoverflow.com/questions/67350508/how-to-convert-binary-in-python-into-bytea-data-type-in-postgresql?noredirect=1#comment119047593_67350508) with no answers I decided to just store and retrieve images on AWS S3 and to just keep the filename and it's access control in the database.
 - Testing multiple uploads is not possible according to a FastAPI expert but single files is doable. However that would require duplication of my current implementation and I don't know if this is something that's acceptable
 
-# Notes
+## Notes
 
 full text search using postgresql
 searching images with images https://github.com/postgrespro/imgsmlr
@@ -68,6 +90,6 @@ On UUID to generate random filenames from this SO [post](!https://stackoverflow.
 
 > Only after generating 1 billion UUIDs every second for the next 100 years, the probability of creating just one duplicate would be about 50%. The probability of one duplicate would be about 50% if every person on earth owns 600 million UUIDs.
 
-# What I used
+## What I used
 
-- FastAPI for backend framework, PostgreSQL for database, SQLAlchemy for ORM
+- FastAPI for backend framework, PostgreSQL for database, SQLAlchemy for ORM, databases for asynchronous query building, pytest-asyncio and httpx for asynchronous testing
