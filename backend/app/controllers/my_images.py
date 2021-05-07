@@ -14,7 +14,8 @@ router = APIRouter()
 bucket = s3_resource.Bucket('shopify-fall')
 
 
-async def get_images(repository, result):
+async def get_images(repository: str, result):
+    # result is a postgresql record
 
     objects = [(f"https://shopify-fall.s3.us-east-2.amazonaws.com/{f.key}", f.key) for f in bucket.objects.filter(
         Prefix=f"{repository}/").all()]

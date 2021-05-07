@@ -1,0 +1,24 @@
+<html>
+
+<head>
+	<title>Search</title>
+</head>
+
+<body>
+	<h1>Your search</h1>
+	<div style="display: flex; flex-wrap: wrap;">
+		{% for image in all_images %}
+		<div style="margin:2rem;">
+			<h5>S3 name:{{image.s3_name}}</h5>
+			<h5>Your image name: {{image.org_name}}</h5>
+			<h5>
+				{{'Characteristics' if request.url.path.split('/')[2]=='characteristics' else 'Text'}}:
+				{{image.search_category}}
+			</h5>
+			<img style="width: 15rem; height: 15rem;" src="{{image.url}}" />
+		</div>
+		{% endfor %}
+	</div>
+</body>
+
+</html>

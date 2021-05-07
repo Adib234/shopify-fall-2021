@@ -69,10 +69,10 @@ store gallery with image name and price
 - search
 - search test
 
-- Architecture?
-- General workflow
+- Architecture? excalidraw
+- General workflow excalidraw
 - Explain file structure in readme
-- mock some data for my_images?
+- add single upload tests?
 
 ## Questions
 
