@@ -43,7 +43,9 @@ To run tests
 
 ```bash
 cd backend/app/tests
-pytest pytest create_user.py my_info.py root.py delete.py
+pytest pytest create_user.py my_info.py root.py delete.py my_images.py
+# or
+pytest * -vv # however this runs tests in create_user.py twice for some reason
 ```
 
 ## Features

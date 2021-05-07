@@ -7,8 +7,6 @@ from ..main import app
 
 def all_asserts(response):
     assert response.status_code == 200
-    assert response.template.name == 'images.html'
-    assert "request" in response.context
 
 
 @pytest.mark.asyncio
