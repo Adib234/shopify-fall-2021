@@ -12,3 +12,4 @@ async def authenticate(api_key):
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect API key",
         )
+    return True

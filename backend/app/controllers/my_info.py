@@ -1,7 +1,9 @@
-from ..db import database
 from fastapi import APIRouter
-from ..security import authenticate
+
+from ..db import database
 from ..request import request_user
+from ..security import authenticate
+
 router = APIRouter()
 
 

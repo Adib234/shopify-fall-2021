@@ -7,6 +7,12 @@
       <a href="#getting-started">Getting started</a>
     </li>
     <li>
+    <a href="#running-tests">Running tests</a>
+    </li>
+    <li>
+          <a href="#features">Features</a>
+    </li>
+    <li>
       <a href="#questions">Questions</a>
     </li>
     <li><a href="#things-i-learned">Things I learned</a></li>
@@ -19,7 +25,7 @@
 
 ## Getting started
 
-To get started from the root directory run
+After cloning this repo, to get started from the root directory run
 
 ```bash
 cd backend && poetry shell && poetry install # activate virutal environment and install dependencies
@@ -31,17 +37,38 @@ Now if you go to `http://127.0.0.1:8000`, you should see `{"Hello":"Adib!"}`, (b
 
 Note your API key is simply your username plus password after you hit `\create_user\` endpoint.
 
-## To do
+## Running Tests
 
-- alembic
-- github actions to run test and test coverage
+To run tests
+
+```bash
+cd backend/app/tests
+pytest pytest create_user.py my_info.py root.py delete.py
+```
+
+## Features
+
+## To do
 
 - sell
 - sell test
+
+users - money, # of selling images
+images - price, discounts, whether it should be sold or not
+
+add whether they want to sell an image or not -- images table
+add users money, # of sold -- users table
+add add_money route
+add buy route
+add put_to_store route
+
+store gallery with image name and price
+
 - search
 - search test
 
-- Encrypt passwords and don't store them in plaintexts
+- Architecture?
+- General workflow
 - Explain file structure in readme
 - mock some data for my_images?
 
@@ -70,15 +97,8 @@ Note your API key is simply your username plus password after you hit `\create_u
 ## Notes
 
 full text search using postgresql
-searching images with images https://github.com/postgrespro/imgsmlr
-for testing https://changhsinlee.com/pytest-mock/
-encrypt passwords
-https://stackoverflow.com/questions/2490334/simple-way-to-encode-a-string-according-to-a-password
 
-if possible using alembic
-from fastapi doc
-Oauth if we have time
-https://fastapi.tiangolo.com/tutorial/security/
+On migrations, which I was unable to do but in the future I will choose a framework that has built in support for migrations
 
 > In this case, we are creating the tables in the same Python file, but in production, you would probably want to create them with Alembic, integrated with migrations, etc.
 
@@ -90,6 +110,13 @@ On UUID to generate random filenames from this SO [post](!https://stackoverflow.
 
 > Only after generating 1 billion UUIDs every second for the next 100 years, the probability of creating just one duplicate would be about 50%. The probability of one duplicate would be about 50% if every person on earth owns 600 million UUIDs.
 
+- No route based middleware in FastAPI means that I can't reduce the first two lines of routes that require authentication
+
+```python
+await authenticate(api_key)
+result = await request_user("---------", api_key)
+```
+
 ## What I used
 
-- FastAPI for backend framework, PostgreSQL for database, SQLAlchemy for ORM, databases for asynchronous query building, pytest-asyncio and httpx for asynchronous testing
+- FastAPI for backend framework, PostgreSQL for database, SQLAlchemy for ORM, databases for asynchronous query building, pytest-asyncio and httpx for asynchronous testing, Poetry for package management, AWS S3 for storing images and AWS Rekcognition for identifying images

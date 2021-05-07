@@ -20,6 +20,8 @@ boto3 = "^1.17.62"
 aiofiles = "^0.6.0"
 requests = "^2.25.1"
 Jinja2 = "^2.11.3"
+alembic = "^1.6.0"
+pyOpenSSL = "^20.0.1"
 
 [tool.poetry.dev-dependencies]
 
