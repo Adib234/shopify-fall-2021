@@ -1,3 +1,5 @@
+from typing import List
+
 from fastapi import APIRouter, Query, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
@@ -9,7 +11,7 @@ templates = Jinja2Templates(
 router = APIRouter()
 
 
-async def search(column: str, search_term: str):
+async def search(column: str, search_term: str) -> List[dict]:
     if search_term[0] != '\'' and search_term[-1] != '\'':
         if search_term[0] != '\'':
             search_term = '\'' + search_term
@@ -47,7 +49,7 @@ async def search_by_text(request: Request, term: str = Query(..., description="T
     return templates.TemplateResponse("search_results.html", {"request": request, "all_images": result})
 
 
-@router.get("/characteristics")
+@router.get("/characteristics/")
 async def search_by_characteristics(request: Request, term: str = Query(...)):
     result = await search("characteristics", term)
     return templates.TemplateResponse("search_results.html", {"request": request, "all_images": result})
