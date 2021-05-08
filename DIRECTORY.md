@@ -17,7 +17,7 @@
     │   │   ├── root.py
     │   │   └── search.py
     │   ├── db.py # database config
-    │   ├── main.py
+    │   ├── main.py # where we register all our routes and startup and shutdown events like database connection happen
     │   ├── models.py # database tables
     │   ├── request.py # some initial information of user
     │   ├── schemas
@@ -26,16 +26,18 @@
     │   ├── templates
     │   │   ├── images.html
     │   │   └── search_results.html
-    │   └── tests
+    |   ├── tests
+    │       ├── add.py
     │       ├── create_user.py
     │       ├── delete.py
-    │       ├── failed-tests
     │       ├── mock-data
     │       │   ├── test.jpg
+    │       │   ├── test.pdf
     │       │   └── test1.jpg
     │       ├── my_images.py
     │       ├── my_info.py
-    │       └── root.py
+    │       ├── root.py
+    │       └── search.py
     ├── poetry.lock # dependencies
     ├── pyproject.toml # dependencies
     └── requirements.txt # dependencies
