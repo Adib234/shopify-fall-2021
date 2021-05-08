@@ -25,12 +25,18 @@
 
 ## Getting started
 
-After cloning this repo, to get started from the root directory run
+Having the Python 3.9+ and the latest PostgreSQL version is required (other versions might work but there is no guarantee). MacOS is the operating system I'm using.
+
+After cloning this repo, to get started from the project's root directory run
 
 ```bash
-createdb shopify-fall
+python3 -m pip install poetry # installing our dependency manager
+poetry --version # verifying that it has been successful
+createdb shopify-image
 touch .env # and fill in this file with AWS credientials and database url
-cd backend && poetry shell && poetry install # activate virutal environment and install dependencies
+cd backend
+poetry shell # activate virutal environment
+poetry install  # install dependencies
 export DATBASE_URL=... AWS_SERVER_PUBLIC_KEY=... AWS_SERVER_SECRET_KEY=... REGION_NAME=... # exporting environment variables to establish the connection to our database on the startup of our backend
 uvicorn app.main:app --reload
 ```
@@ -49,6 +55,15 @@ cd backend/app/tests
 pytest create_user.py my_info.py root.py delete.py my_images.py add.py search.py
 # or
 pytest * -vv # however this runs tests in add.py twice for some reason
+```
+
+For one `my_images.py` test you may need to change the configuration of the templates route since it uses absolute path and not relative because the tests weren't working with relative paths at first.
+
+If that does happen go to `my_images.py` in `controllers`, **not in tests** and change this on line 10
+
+```python
+templates = Jinja2Templates(
+    directory="/Users/admin/shopify-app-fall/backend/app/templates") #put directory as whatever the result is after running pwd command when you're in templates directory
 ```
 
 ## Features
@@ -110,18 +125,3 @@ result = await request_user("---------", api_key)
 ## What I used
 
 - FastAPI for backend framework, PostgreSQL for database, SQLAlchemy for ORM, databases for asynchronous query building, pytest-asyncio and httpx for asynchronous testing, Poetry for package management, AWS S3 for storing images and AWS Rekcognition for identifying images
-
-## To do
-
-If we have more time, we might do the sell function
-
-users - money, # of selling images
-images - price, discounts, whether it should be sold or not
-
-add whether they want to sell an image or not -- images table
-add users money, # of sold -- users table
-add add_money route
-add buy route
-add put_to_store route
-
-store gallery with image name and price

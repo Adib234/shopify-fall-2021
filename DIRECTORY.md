@@ -39,7 +39,5 @@
     │       ├── root.py
     │       └── search.py
     ├── poetry.lock # dependencies
-    ├── pyproject.toml # dependencies
-    └── requirements.txt # dependencies
-
+    └── pyproject.toml # dependencies
 ```
