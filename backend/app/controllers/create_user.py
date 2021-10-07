@@ -24,8 +24,8 @@ async def create_user(user: Users):
 
     query = "select * from users"
     rows = await database.fetch_all(query=query)
-
     for row in rows:
+        print(row['username'])
         if row['username'] == user.username or row['password'] == user.password:
             raise HTTPException(
                 status_code=406, detail="This username or password exists, please choose a different one")

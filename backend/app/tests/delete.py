@@ -8,6 +8,8 @@ from ..aws import s3_resource
 from ..db import database
 from ..main import app
 
+# user string must have id of 1 for this to work
+
 
 @pytest.mark.asyncio
 async def test_unknown():
@@ -57,15 +59,16 @@ async def success_delete(d: List[str], permission: str) -> None:
 
     await database.connect()
     for image in d:
-        query_insert = ("insert into images(permissions,text,characteristics,date_created,user_id,s3_name,org_name)"
+        query_insert = ("insert into images(permissions,text,characteristics,date_created,s3_name,org_name,user_id)"
                         f"values('{PERMISSIONS}','string',"
                         f"'string'"
-                        f",{func.now()},1"
-                        f",'{image}','{image}')")
+                        f",{func.now()}"
+                        f",'{image}','{image}',1)")
         await database.execute(query=query_insert)
 
     query_update = (
         f"update users set {permission}={permission} + {len(d)}, date_updated={func.now()} where id=1")
+    print(query_update)
     await database.execute(query=query_update)
     query_before = f"select {permission} from users where id=1"
     result_update = await database.fetch_all(query=query_before)
@@ -92,6 +95,7 @@ async def success_delete(d: List[str], permission: str) -> None:
     assert before_delete_S3 - len(d) == after_delete_S3
 
     for image in d:
+        print(image)
         query_find = f"select * from images where s3_name='{image}'"
         result = await database.fetch_all(query=query_find)
         assert len(result) == 0

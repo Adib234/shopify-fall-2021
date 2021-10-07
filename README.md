@@ -40,6 +40,9 @@ poetry install  # install dependencies
 export DATBASE_URL=... AWS_SERVER_PUBLIC_KEY=... AWS_SERVER_SECRET_KEY=... REGION_NAME=... # exporting environment variables to establish the connection to our database on the startup of our backend
 uvicorn app.main:app --reload
 ```
+Database should be in this format `postgresql://localhost/mydb`
+
+You can get your keys by creating a user in IAM on AWS
 
 Now if you go to `http://127.0.0.1:8000`, you should see `{"Hello":"Adib!"}`, (bonus : FastAPI has built-in documentation for this project, so by going to `http://127.0.0.1:8000/docs` you will see all routes, descriptions of it and can even interact with it since you can specifiy any variables or parameters )
 
@@ -49,6 +52,11 @@ Note your API key is your username plus password after you hit `\create_user\` e
 ## Running tests
 
 To run tests
+
+Make sure to create an api key with username string and password string for the tests to work
+and set that user to id of 1
+
+After running `add.py` you might have to manually set username string `private_images` and `public_images` to 0 in database and delete the images in your S3 bucket if you plan on rerunning the tests
 
 ```bash
 cd backend/app/tests
@@ -80,7 +88,7 @@ templates = Jinja2Templates(
 - How to run all tests in `pytest` instead of specifying the file. Also, why does `pytest *` run twice?
 - How to test upload of multiple files with FastAPI?
 - How to inject my `authenticate` function in all my routes?
-
+- If tests fail how do I roll back my changes made during tests
 ## Things I learned
 
 - FastAPI offers two ways of handling file uploads by clients: `File` and `UploadFile` function. For this project I chose to work with `UploadFile` because there's no specification for image file sizes for this challenge. Therefore it would be best to work with `UploadFile` since it uses a "spooled" file meaning that the file will be stored in memory, but if it exceeds the limit, then additional memory is stored in disk. `File` only stores files in memory.
@@ -125,3 +133,16 @@ result = await request_user("---------", api_key)
 ## What I used
 
 - FastAPI for backend framework, PostgreSQL for database, SQLAlchemy for ORM, databases for asynchronous query building, pytest-asyncio and httpx for asynchronous testing, Poetry for package management, AWS S3 for storing images and AWS Rekcognition for identifying images
+
+
+## Checks 
+
+Works
+root.py
+create_user.py
+add.py
+my_info.py
+delete.py
+
+my_images.py
+search.py

@@ -8,7 +8,7 @@ from ..request import request_user
 from ..security import authenticate
 
 templates = Jinja2Templates(
-    directory="/Users/admin/shopify-app-fall/backend/app/templates")
+    directory="/Users/admin/shopify-fall-2021/backend/app/templates")
 router = APIRouter()
 
 bucket = s3_resource.Bucket('shopify-fall')
@@ -16,7 +16,7 @@ bucket = s3_resource.Bucket('shopify-fall')
 
 async def get_images(repository: str, result):
     # result is a postgresql record
-
+    print(repository)
     objects = [(f"https://shopify-fall.s3.us-east-2.amazonaws.com/{f.key}", f.key) for f in bucket.objects.filter(
         Prefix=f"{repository}/").all()]
     print(objects)
@@ -26,9 +26,9 @@ async def get_images(repository: str, result):
         url, s3_name = image
         # Gets the properties of the image and makes sure that user has access control
         query_fetch = f"select * from images where s3_name='{s3_name.split('/')[1]}' and user_id={result[0]['id']}"
-        print(query_fetch)
+        print("hello", query_fetch)
         result_fetch = await database.fetch_all(query=query_fetch)
-        # print(result_fetch[0])
+        print(result_fetch[0])
         all_images.append({"s3_name": s3_name.split(
             '/')[1], "url": url, "org_name": result_fetch[0]["org_name"],
             "permission": result_fetch[0]["permissions"],

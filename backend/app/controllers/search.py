@@ -7,7 +7,7 @@ from fastapi.templating import Jinja2Templates
 from ..db import database
 
 templates = Jinja2Templates(
-    directory="/Users/admin/shopify-app-fall/backend/app/templates")
+    directory="/Users/admin/shopify-fall-2021/backend/app/templates")
 router = APIRouter()
 
 
